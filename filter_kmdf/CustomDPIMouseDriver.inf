@@ -1,0 +1,120 @@
+[Version]
+Signature="$Windows NT$"
+Provider=%ProviderName%
+ClassGUID={4D36E96F-E325-11CE-BFC1-08002BE10318}
+Class=Mouse
+DriverVer=03/21/2022, 1.0.0.0
+CatalogFile=CustomDPIMouseDriver.cat
+PnpLockDown=1
+
+[DestinationDirs]
+DefaultDestDir = 12 ; /Driver
+Storyboard_CoInstaller_CopyFiles = 11 ; /System32
+
+[ControlFlags]
+; Exclude from non-PnP hardware dialogs
+ExcludeFromSelect = *
+
+;
+; Driver information
+;
+
+[Manufacturer]
+%MfgName%=Standard,NT$ARCH$
+
+[Standard.NT$ARCH$]
+%DeviceDesc%=Storyboard, HID\Vid_045E&Pid_001E
+%DeviceDesc%=Storyboard, HID\Vid_045E&Pid_0029
+%DeviceDesc%=Storyboard, HID\Vid_045E&Pid_0039
+%DeviceDesc%=Storyboard, HID\Vid_045E&Pid_0040
+%DeviceDesc%=Storyboard, HID\Vid_045E&Pid_0047
+
+;
+; General installation section
+;
+
+[Storyboard.NT]
+; perform port related actions from mouse.inf
+Include=msmouse.inf
+Needs=HID_Mouse_Inst.NT.Services
+CopyFiles=Storyboard.CopyFiles
+
+[Storyboard.NT.HW]
+; Add the device upper filter
+Include=msmouse.inf
+Needs=HID_Mouse_Inst.NT.HW
+AddReg=Storyboard.HW.AddReg
+
+[Storyboard.HW.AddReg]
+HKR,,"UpperFilters",0x00010000,"custom_dpi_mouse_driver"
+
+[Storyboard.CopyFiles]
+CustomDPIMouseDriver.sys
+
+[Storyboard.NT.Services]
+Include=msmouse.inf
+Needs=HID_Mouse_Inst.NT.Services
+AddService=custom_dpi_mouse_driver,  , custom_dpi_mouse_driver_Service_Inst
+
+[custom_dpi_mouse_driver_Service_Inst]
+DisplayName    = %SvcDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\CustomDPIMouseDriver.sys
+
+; Source Media Section
+
+[SourceDisksNames]
+1 = %DiskId1%,,,
+
+[SourceDisksFiles]
+CustomDPIMouseDriver.sys = 1
+WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll = 1
+
+;
+;--- Storyboard Coinstaller installation ------
+;
+
+[Storyboard.NT.CoInstallers]
+AddReg=Storyboard_CoInstaller_AddReg
+CopyFiles=Storyboard_CoInstaller_CopyFiles
+
+[Storyboard_CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000, "WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll,WdfCoInstaller"
+
+[Storyboard_CoInstaller_CopyFiles]
+WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll
+
+[Storyboard.NT.Wdf]
+KmdfService = custom_dpi_mouse_driver, custom_dpi_mouse_driver_wdfsect
+
+[custom_dpi_mouse_driver_wdfsect]
+KmdfLibraryVersion = $KMDFVERSION$
+
+
+[Strings]
+
+;
+; Non-Localizable Strings
+;
+
+REG_SZ         = 0x00000000
+REG_MULTI_SZ   = 0x00010000
+REG_EXPAND_SZ  = 0x00020000
+REG_BINARY     = 0x00000001
+REG_DWORD      = 0x00010001
+
+;
+; Localizable Strings
+;
+
+ProviderName = "storycraft"
+MfgName      = "Storyboard"
+
+DeviceDesc = "Customized Mouse Device"
+
+; Make sure the service description is unique to avoid collision with another INF.
+SvcDesc = "Customized Mouse Driver Service"
+
+DiskId1 = "Customized Mouse Install Disk"
