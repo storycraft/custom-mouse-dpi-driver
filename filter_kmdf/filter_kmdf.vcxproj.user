@@ -3,4 +3,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <SignMode>TestSign</SignMode>
+    <ProductionCertificate>
+    </ProductionCertificate>
+    <CrossCertificateFile>
+    </CrossCertificateFile>
+    <TestCertificate>
+    </TestCertificate>
+  </PropertyGroup>
 </Project>

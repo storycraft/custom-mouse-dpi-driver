@@ -58,10 +58,10 @@ InitControlDevice(
 
     controlExt = ControlGetData(device);
 
-    CMMD_MOUSE_CONFIG config = {
-        CMMD_DEFAULT_CONFIG_ORIGINAL_DPI,
-        CMMD_DEFAULT_CONFIG_TARGET_DPI_X,
-        CMMD_DEFAULT_CONFIG_TARGET_DPI_Y
+    CMDD_MOUSE_CONFIG config = {
+        CMDD_DEFAULT_CONFIG_ORIGINAL_DPI,
+        CMDD_DEFAULT_CONFIG_TARGET_DPI_X,
+        CMDD_DEFAULT_CONFIG_TARGET_DPI_Y
     };
 
     status = LoadControlMouseConfig(Driver, &config);
@@ -111,7 +111,7 @@ ControlEventIoDeviceControl(
     PCONTROL_EXTENSION  controlExt;
     NTSTATUS           status = STATUS_SUCCESS;
     WDFDEVICE          device;
-    PCMMD_MOUSE_CONFIG config;
+    PCMDD_MOUSE_CONFIG config;
 
     PAGED_CODE();
 
@@ -119,10 +119,10 @@ ControlEventIoDeviceControl(
     controlExt = ControlGetData(device);
 
     switch (IoControlCode) {
-    case IOCTL_CMMD_GET_CONFIG: {
+    case IOCTL_CMDD_GET_CONFIG: {
         status = WdfRequestRetrieveOutputBuffer(
             Request,
-            sizeof(CMMD_MOUSE_CONFIG),
+            sizeof(CMDD_MOUSE_CONFIG),
             &config,
             NULL
         );
@@ -133,14 +133,14 @@ ControlEventIoDeviceControl(
 
         *config = controlExt->Config;
 
-        WdfRequestCompleteWithInformation(Request, status, sizeof(CMMD_MOUSE_CONFIG));
+        WdfRequestCompleteWithInformation(Request, status, sizeof(CMDD_MOUSE_CONFIG));
         return;
     }
 
-    case IOCTL_CMMD_SET_CONFIG: {
+    case IOCTL_CMDD_SET_CONFIG: {
         status = WdfRequestRetrieveInputBuffer(
             Request,
-            sizeof(CMMD_MOUSE_CONFIG),
+            sizeof(CMDD_MOUSE_CONFIG),
             &config,
             NULL
         );
@@ -170,7 +170,7 @@ ControlEventIoDeviceControl(
 NTSTATUS
 LoadControlMouseConfig(
     IN WDFDRIVER Driver,
-    OUT CMMD_MOUSE_CONFIG* config
+    OUT CMDD_MOUSE_CONFIG* config
 ) {
     NTSTATUS status = STATUS_SUCCESS;
     WDFKEY   parameterKey;
@@ -208,7 +208,7 @@ LoadControlMouseConfig(
 NTSTATUS
 SaveControlMouseConfig(
     IN WDFDRIVER Driver,
-    IN CMMD_MOUSE_CONFIG config
+    IN CMDD_MOUSE_CONFIG config
 ) {
     NTSTATUS status = STATUS_SUCCESS;
     WDFKEY   parameterKey;

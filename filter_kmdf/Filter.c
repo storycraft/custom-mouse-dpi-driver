@@ -187,7 +187,7 @@ FilterServiceCallback(
     PFILTER_EXTENSION   filterExt;
     PCONTROL_EXTENSION  controlExt;
     WDFDEVICE           device;
-    CMMD_MOUSE_CONFIG   config;
+    CMDD_MOUSE_CONFIG   config;
 
     static int xLeft = 0;
     static int yLeft = 0;

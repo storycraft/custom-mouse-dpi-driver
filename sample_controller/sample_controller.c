@@ -21,13 +21,13 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
-	CMMD_MOUSE_CONFIG config;
+	CMDD_MOUSE_CONFIG config;
 	if (argc >= 4) {
 		config.OriginalDPI = atoi(argv[1]);
 		config.TargetDPIX = atoi(argv[2]);
 		config.TargetDPIY = atoi(argv[3]);
 
-		if (!DeviceIoControl(device, IOCTL_CMMD_SET_CONFIG, &config, sizeof(CMMD_MOUSE_CONFIG), NULL, NULL, NULL, NULL)) {
+		if (!DeviceIoControl(device, IOCTL_CMDD_SET_CONFIG, &config, sizeof(CMDD_MOUSE_CONFIG), NULL, NULL, NULL, NULL)) {
 			printf("DeviceIoControl failed. status: 0x%x\n", GetLastError());
 			return 1;
 		}
@@ -35,7 +35,7 @@ int main(int argc, char **argv) {
 		printf("Mouse Settings Updated.\n\n");
 	}
 
-	if (!DeviceIoControl(device, IOCTL_CMMD_GET_CONFIG, NULL, NULL, &config, sizeof(CMMD_MOUSE_CONFIG), NULL, NULL)) {
+	if (!DeviceIoControl(device, IOCTL_CMDD_GET_CONFIG, NULL, NULL, &config, sizeof(CMDD_MOUSE_CONFIG), NULL, NULL)) {
 		printf("DeviceIoControl failed. status: 0x%x\n", GetLastError());
 		return 1;
 	}

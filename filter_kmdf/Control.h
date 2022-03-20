@@ -7,7 +7,7 @@
 
 typedef struct _CONTROL_EXTENSION
 {
-    CMMD_MOUSE_CONFIG Config;
+    CMDD_MOUSE_CONFIG Config;
     // ...
 } CONTROL_EXTENSION, *PCONTROL_EXTENSION;
 
@@ -31,12 +31,12 @@ InitControlDevice(
 NTSTATUS
 LoadControlMouseConfig(
     IN WDFDRIVER Driver,
-    OUT CMMD_MOUSE_CONFIG *config
+    OUT CMDD_MOUSE_CONFIG *config
 );
 
 // Try saving config to driver parameters registry
 NTSTATUS
 SaveControlMouseConfig(
     IN WDFDRIVER Driver,
-    IN CMMD_MOUSE_CONFIG config
+    IN CMDD_MOUSE_CONFIG config
 );
