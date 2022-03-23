@@ -155,6 +155,8 @@ ControlEventIoDeviceControl(
         }
 
         controlExt->Config = *config;
+        EnsureSafeConfig(&controlExt->Config);
+
         SaveControlMouseConfig(WdfDeviceGetDriver(device), controlExt->Config);
 
         WdfRequestComplete(Request, status);
@@ -199,6 +201,8 @@ LoadControlMouseConfig(
     if (NT_SUCCESS(WdfRegistryQueryULong(parameterKey, &REG_TARGET_DPI_Y_NAME, &res))) {
         config->TargetDPIY = (int)res;
     }
+
+    EnsureSafeConfig(config);
 
     WdfRegistryClose(parameterKey);
 

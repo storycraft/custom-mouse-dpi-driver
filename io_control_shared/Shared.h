@@ -24,3 +24,13 @@ typedef struct _CMDD_MOUSE_CONFIG {
 #define CMDD_DEFAULT_CONFIG_ORIGINAL_DPI 1000
 #define CMDD_DEFAULT_CONFIG_TARGET_DPI_X 1000
 #define CMDD_DEFAULT_CONFIG_TARGET_DPI_Y 1000
+
+// Define DPI limits for safety
+#define CMDD_CONFIG_DPI_MIN -100000
+#define CMDD_CONFIG_DPI_MAX 100000
+
+// Check if the input is safe as DPI value
+#define IsSafeDPI(dpi) ((dpi) <= CMDD_CONFIG_DPI_MAX && (dpi) >= CMDD_CONFIG_DPI_MIN && (dpi) != 0)
+
+// Ensure the config is safe or reset unsafe value to default
+void EnsureSafeConfig(PCMDD_MOUSE_CONFIG config);

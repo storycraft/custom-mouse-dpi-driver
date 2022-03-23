@@ -7,7 +7,6 @@
 #pragma alloc_text (PAGE, FilterEventInternalIoDeviceControl)
 #endif
 
-
 // Device COUNTER
 int filterDevices = 0;
 WDFWAITLOCK FilterDeviceCounterLock = NULL;
